@@ -261,7 +261,7 @@ city_name <-  gsub('[^\u4e00-\u9fff]','',c_list)
 ### 4. 其他
 ```ruby
 as.numeric()#文本转数字
-as.character() #这个还真不知道是为什么.....似乎是为了产生字符这个类型....我用到的情境是爬华为的时候把省份表格里的每个provinceid都用了一下....
+as.character() #对象转为字符串（在R里string和charater没有区别，一般用后者）；我用到的情境是爬华为的时候把省份表格里的每个provinceid都用了一下
 content <- formList2Character(content)  #防止里面包含list
 ```
 msg至今还不会 每次都叫大象来救

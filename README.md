@@ -43,19 +43,44 @@ novice
 
 **Tips：第三点尤其重要，以品牌库的爬虫为例，有时候一家公司的网站并不会只使用一种数据存储方式，这时候我们就需要确认每一层的信息都是以什么方式存储的，需要调用什么样的命令。通常新一线写的循环是省份-->城市-->区/县-->页--->门店，观察的时候就要确定每一层信息是以XML还是以JSON的方式存储的。**
 
-一般情况下，我们点开每个网页的的**headers**都能获取URL、访问方式和数据交换语言这些必备信息
+一般情况下，我们点开每个网页的**headers**都能获取URL、访问方式和数据交换语言这些必备信息
 而**Preview选项卡**则会显示这个网页返回的信息
 
-！[google](https://lh6.googleusercontent.com/2uGXsa4_AJIZ0C0cMBISyJ19BvMy7l7ZOpXmaju0Q6QmzQDzyBmSqzqvDjeYkgETQ1JFI5OvzKxzwLsRUqbk3DQCrHMFA8Iy83Jd4x3zZozPa3v8f0PulAxLhGxfTpmNZ62zMjuf)
+![google1](https://lh6.googleusercontent.com/2uGXsa4_AJIZ0C0cMBISyJ19BvMy7l7ZOpXmaju0Q6QmzQDzyBmSqzqvDjeYkgETQ1JFI5OvzKxzwLsRUqbk3DQCrHMFA8Iy83Jd4x3zZozPa3v8f0PulAxLhGxfTpmNZ62zMjuf)
+
+上图是一个典型的XML+GET的网页
+
+![google2](https://lh3.googleusercontent.com/DQD1vhoRHXWJcpDMDcjye91kYD8xdUhuO3cE-ekVKJF_BBdbo5g0AhYkuCKLo1_qDL1QOr_ONvkBi8xbht0woTmQ2lrXuuQDl5Nunqre)
+
+这是该XML型网页返回的信息格式，爬取XML的信息就需要跟这些代码写成的标签作斗争
+
+![google3](https://lh4.googleusercontent.com/-DHl0lQI75yRvSeR_A6gHfMjCNRn9HwrYLONf3jtALEhRL772XEcP2WusXrAEiupLTXYGt_oLp2rUEWXpu4odz2fy0k_DFv1DVlTAonF)
+
+这是一个典型的JSON+GET的网页
+
+![google4](https://lh6.googleusercontent.com/b3G_BWPOiYBYXlYe7WdfcuEYViTgY3ljW1bOy8JAHfryjjnWDr4PN4dRLrCkI5aUIXzesZPTLJ4M3NECZpgiS_YQyukspQ-4pP3XLlfaEkRH-1vxyX5Lvt5Kuivj1ncpWtD9nFYa)
+
+这是一个JSON网页返回信息的格式，点开每个小三角形都能看到具体的门店信息
+
+![google5](https://lh6.googleusercontent.com/GnRGDXXjzFKaKqx8dw2ejkX2UTwhVDsfEVX6TYNQFzCLv3UgGLZy2HajUhIFRkDES9YQPuXv5NIgskdzIbok3g_xqzWxOOa-WLqTiV51lricmX-nW0XE5PQw6BUGC-fwTbwBNmW8)
+
+上图是一个JSON+POST的网页，实际上我们还需要多关注一个信息是Form Data， 看下图:
+
+![google6](https://lh3.googleusercontent.com/0u624QEuADetreEgV2_wAABMoAW1-LjI0N7Fks1_1365f27R8tr7NWI7JjNbR3N7H3mjuoMKir2P83X7sdCZdbfVHG1MSsGKCRnS9dnrr6WQflzbVDq-_epbYJiO_7l7_-SPSIbR)
+
+点击View source你将会看到后面写代码需要用到的定位信息 一般会是省份、城市、区域等信息
 
 **Tips： 之前爬到了几个很难找network文件的网站（华为和月星家居）
 首先，基本上刷新无法加载出你想要的信息页面的时候，就可以判定他们的信息在一开始的时候就全部载入了，要把最初的network都检查一遍。
 其次，有可能会出现一些你以为根本不会是信息所在的network文件里，比如，那个网址是用unicode编码的，不会出现中文，但是信息都藏在里面了。比如下图：**
 
+![gooogle7](https://lh4.googleusercontent.com/6xx9WHbbtSOfWx534vuxn9o5TRpnmdxMy8rLUwpJgtOA197nfa82AwYTMb-RNpC-o_qMxQ-awd0dejT9gSiwpZJt0YmKpVo7QLeDJrDYwMuWpkWcvIhTjf_TsLfiLMxMhl9oHIRa)
+
 这条url打开后，长这样：
 
-## 爬虫实操
+![google8](https://lh5.googleusercontent.com/DORus5F9mFOSE0jsT4IlMb5B3ExwAR0CMZwMn2hi8_jdyau329J88stOSb3Jo1UqHFbj19LeiMWOwNEotAif-AzzKqev5UER1-VDbwQbIl0zp3k73R3FZxyHdrrUQe817EpBaubE)
 
+## 爬虫实操
 好了，当你点开Network观察了这么久，脑海里应该已经有爬虫的框架了，假如给你一张纸，应该能准确画出每一层信息的数据存储方式、访问方式和定位条件（if POST）。
 
 先来瞎讲讲爬虫的基本原理吧，其实就是你的程序伪装成一个浏览器不断地访问目标网站，根据对方的数据交换语言获取所需信息。
